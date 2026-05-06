@@ -1,5 +1,3 @@
-<script type="text/javascript">
-
 var dataPengguna = [
   {
     id: 1,
@@ -151,5 +149,3 @@ var dataTracking = {
     ]
   }
 };
-
-</script>
