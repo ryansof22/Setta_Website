@@ -70,6 +70,6 @@ function cariTracking() {
 
 // INIT
 window.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname.includes("dashboard.html")) updateGreeting();
+    if (window.location.pathname.includes("html/dashboard.html")) updateGreeting();
     if (window.location.pathname.includes("stok.html")) tampilkanStok();
 });
