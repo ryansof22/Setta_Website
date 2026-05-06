@@ -1,36 +1,121 @@
-// js/script.js
-
-// 1. Fungsi Greeting (Referensi: w3schools.com/js/js_date_methods.asp)
+// ==========================================
+// 1. FUNGSI GREETING (Halaman Dashboard)
+// ==========================================
 function updateGreeting() {
-    const time = new Date().getHours();
-    let greeting = "";
-    if (time < 11) { greeting = "Selamat Pagi"; }
-    else if (time < 15) { greeting = "Selamat Siang"; }
-    else if (time < 19) { greeting = "Selamat Sore"; }
-    else { greeting = "Selamat Malam"; }
-    
     const greetingElement = document.getElementById("greeting");
-    if (greetingElement) greetingElement.innerText = greeting;
+    if (!greetingElement) return;
+
+    const time = new Date().getHours(); // Referensi: w3schools.com/js/js_date_methods.asp
+    let greetingText = "";
+
+    if (time >= 5 && time < 11) {
+        greetingText = "Selamat Pagi";
+    } else if (time >= 11 && time < 15) {
+        greetingText = "Selamat Siang";
+    } else if (time >= 15 && time < 19) {
+        greetingText = "Selamat Sore";
+    } else {
+        greetingText = "Selamat Malam";
+    }
+
+    const namaUser = sessionStorage.getItem("namaUser") || "Pengguna";
+    greetingElement.innerText = `${greetingText}, ${namaUser}`;
 }
 
-// 2. Validasi Login (Pop-up/Alert)
+// ==========================================
+// 2. LOGIKA LOGIN (Halaman Index)
+// ==========================================
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
+    loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        const email = document.getElementById("email").value;
-        const pass = document.getElementById("password").value;
+        const emailInput = document.getElementById("email").value;
+        const passInput = document.getElementById("password").value;
 
-        // Simulasi validasi sederhana sesuai soal
-        if (email === "admin@ut.ac.id" && pass === "12345") {
+        // Mencari pengguna di data.js[cite: 3]
+        const user = dataPengguna.find(u => u.email === emailInput && u.password === passInput);
+
+        if (user) {
+            // Simpan data di session agar bisa dipanggil di halaman lain
+            sessionStorage.setItem("isLoggedIn", "true");
+            sessionStorage.setItem("namaUser", user.nama);
             window.location.href = "dashboard.html";
         } else {
-            alert("Email/password yang anda masukkan salah"); // Referensi: w3schools.com/js/js_popup.asp
+            // Feedback error sesuai soal
+            alert("email/password yang anda masukkan salah");
         }
     });
 }
 
-// Jalankan greeting jika berada di halaman dashboard
-if (window.location.pathname.includes("dashboard.html")) {
-    updateGreeting();
+// ==========================================
+// 3. LOGIKA TRACKING (Halaman Tracking)
+// ==========================================
+function cariTracking() {
+    const noDO = document.getElementById("noDO").value;
+    const data = dataTracking[noDO]; // Mengambil dari data.js[cite: 3]
+    const hasilContainer = document.getElementById("hasilTracking");
+
+    if (data) {
+        hasilContainer.style.display = "block";
+        document.getElementById("namaMhs").innerText = "Nama Mahasiswa: " + data.nama;
+        document.getElementById("statusKirim").innerText = "Status: " + data.status;
+        
+        const tabel = document.getElementById("tabelPerjalanan");
+        tabel.innerHTML = "<tr><th>Waktu</th><th>Keterangan</th></tr>"; // Reset tabel
+
+        data.perjalanan.forEach(step => {
+            const row = `<tr>
+                <td>${step.waktu}</td>
+                <td>${step.keterangan}</td>
+            </tr>`;
+            tabel.innerHTML += row;
+        });
+    } else {
+        alert("Nomor DO tidak ditemukan!");
+        hasilContainer.style.display = "none";
+    }
 }
+
+// ==========================================
+// 4. MANIPULASI DOM STOK (Halaman Stok)
+// ==========================================
+function tampilkanStok() {
+    const tableBody = document.getElementById("stokTableBody");
+    if (!tableBody) return;
+
+    tableBody.innerHTML = ""; // Bersihkan tabel
+    dataBahanAjar.forEach(item => {
+        const row = `<tr>
+            <td>${item.kodeBarang}</td>
+            <td>${item.namaBarang}</td>
+            <td>${item.jenisBarang}</td>
+            <td>${item.stok}</td>
+            <td><button onclick="tambahStok('${item.kodeBarang}')">Tambah</button></td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+
+function tambahStok(kode) {
+    const item = dataBahanAjar.find(i => i.kodeBarang === kode);
+    if (item) {
+        item.stok += 1; // Manipulasi data sederhana
+        tampilkanStok(); // Refresh tampilan tabel
+        alert(`Stok ${item.namaBarang} berhasil ditambah!`);
+    }
+}
+
+// ==========================================
+// 5. INISIALISASI HALAMAN
+// ==========================================
+window.addEventListener("DOMContentLoaded", () => {
+    const path = window.location.pathname;
+
+    if (path.includes("dashboard.html")) {
+        updateGreeting();
+    }
+    
+    if (path.includes("stok.html")) {
+        tampilkanStok();
+    }
+});
