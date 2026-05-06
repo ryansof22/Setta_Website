@@ -1,122 +1,75 @@
-// ==========================================
-// 1. FUNGSI GREETING (Halaman Dashboard)
-// ==========================================
+// 1. GREETING
 function updateGreeting() {
-    const greetingElement = document.getElementById("greeting");
-    if (!greetingElement) return;
-
-    const time = new Date().getHours(); // Referensi: w3schools.com/js/js_date_methods.asp
-    let greetingText = "";
-
-    if (time >= 5 && time < 11) {
-        greetingText = "Selamat Pagi";
-    } else if (time >= 11 && time < 15) {
-        greetingText = "Selamat Siang";
-    } else if (time >= 15 && time < 19) {
-        greetingText = "Selamat Sore";
-    } else {
-        greetingText = "Selamat Malam";
-    }
-
-    const namaUser = sessionStorage.getItem("namaUser") || "Pengguna";
-    greetingElement.innerText = `${greetingText}, ${namaUser}`;
+    const element = document.getElementById("greeting");
+    if (!element) return;
+    const hour = new Date().getHours();
+    let greet = hour < 11 ? "Selamat Pagi" : hour < 15 ? "Selamat Siang" : "Selamat Sore";
+    const nama = sessionStorage.getItem("namaUser") || "Pengguna";
+    element.innerText = `${greet}, ${nama}`;
 }
 
-// ==========================================
-// 2. LOGIKA LOGIN (Halaman Index)
-// ==========================================
+// 2. LOGIN (Memperbaiki jalur ke folder html/)
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
+    loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const emailInput = document.getElementById("email").value;
-        const passInput = document.getElementById("password").value;
+        const email = document.getElementById("email").value;
+        const pass = document.getElementById("password").value;
+        const user = dataPengguna.find(u => u.email === email && u.password === pass);
 
-        // Mencari pengguna di data.js[cite: 3]
-        const user = dataPengguna.find(u => u.email === emailInput && u.password === passInput);
-
-        // Di dalam js/script.js (Bagian Logika Login)
-if (user) {
-    sessionStorage.setItem("isLoggedIn", "true");
-    sessionStorage.setItem("namaUser", user.nama);
-    // Ubah jalur menjadi seperti ini:
-    window.location.href = "html/dashboard.html"; 
-} else {
-            // Feedback error sesuai soal
-            alert("email/password yang anda masukkan salah");
+        if (user) {
+            sessionStorage.setItem("namaUser", user.nama);
+            // KUNCI: Karena index.html ada di root, maka pindah ke html/dashboard.html
+            window.location.href = "html/dashboard.html"; 
+        } else {
+            alert("Email atau Password salah!");
         }
     });
 }
 
-// ==========================================
-// 3. LOGIKA TRACKING (Halaman Tracking)
-// ==========================================
-function cariTracking() {
-    const noDO = document.getElementById("noDO").value;
-    const data = dataTracking[noDO]; // Mengambil dari data.js[cite: 3]
-    const hasilContainer = document.getElementById("hasilTracking");
-
-    if (data) {
-        hasilContainer.style.display = "block";
-        document.getElementById("namaMhs").innerText = "Nama Mahasiswa: " + data.nama;
-        document.getElementById("statusKirim").innerText = "Status: " + data.status;
-        
-        const tabel = document.getElementById("tabelPerjalanan");
-        tabel.innerHTML = "<tr><th>Waktu</th><th>Keterangan</th></tr>"; // Reset tabel
-
-        data.perjalanan.forEach(step => {
-            const row = `<tr>
-                <td>${step.waktu}</td>
-                <td>${step.keterangan}</td>
-            </tr>`;
-            tabel.innerHTML += row;
-        });
-    } else {
-        alert("Nomor DO tidak ditemukan!");
-        hasilContainer.style.display = "none";
-    }
-}
-
-// ==========================================
-// 4. MANIPULASI DOM STOK (Halaman Stok)
-// ==========================================
+// 3. STOK (Memperbaiki jalur gambar ke assets/img/)
 function tampilkanStok() {
     const tableBody = document.getElementById("stokTableBody");
     if (!tableBody) return;
-
-    tableBody.innerHTML = ""; // Bersihkan tabel
+    tableBody.innerHTML = "";
     dataBahanAjar.forEach(item => {
-        const row = `<tr>
-            <td>${item.kodeBarang}</td>
-            <td>${item.namaBarang}</td>
-            <td>${item.jenisBarang}</td>
-            <td>${item.stok}</td>
-            <td><button onclick="tambahStok('${item.kodeBarang}')">Tambah</button></td>
-        </tr>`;
-        tableBody.innerHTML += row;
+        // Karena file .html ada di folder /html, maka naik satu tingkat ke ../assets/
+        const imgPath = `../assets/${item.cover}`; 
+        tableBody.innerHTML += `
+            <tr>
+                <td><img src="${imgPath}" width="60" style="border-radius:4px"></td>
+                <td>${item.kodeBarang}</td>
+                <td>${item.namaBarang}</td>
+                <td>${item.stok}</td>
+                <td><button onclick="tambahStok('${item.kodeBarang}')">Tambah</button></td>
+            </tr>`;
     });
 }
 
 function tambahStok(kode) {
     const item = dataBahanAjar.find(i => i.kodeBarang === kode);
-    if (item) {
-        item.stok += 1; // Manipulasi data sederhana
-        tampilkanStok(); // Refresh tampilan tabel
-        alert(`Stok ${item.namaBarang} berhasil ditambah!`);
-    }
+    if (item) { item.stok++; tampilkanStok(); }
 }
 
-// ==========================================
-// 5. INISIALISASI HALAMAN
-// ==========================================
-window.addEventListener("DOMContentLoaded", () => {
-    const path = window.location.pathname;
+// 4. TRACKING
+function cariTracking() {
+    const noDO = document.getElementById("noDO").value;
+    const data = dataTracking[noDO];
+    const container = document.getElementById("hasilTracking");
+    if (data) {
+        container.style.display = "block";
+        document.getElementById("namaMhs").innerText = data.nama;
+        document.getElementById("statusKirim").innerText = "Status: " + data.status;
+        const tabel = document.getElementById("tabelPerjalanan");
+        tabel.innerHTML = "<tr><th>Waktu</th><th>Keterangan</th></tr>";
+        data.perjalanan.forEach(p => {
+            tabel.innerHTML += `<tr><td>${p.waktu}</td><td>${p.keterangan}</td></tr>`;
+        });
+    } else { alert("Nomor DO tidak ditemukan!"); }
+}
 
-    if (path.includes("dashboard.html")) {
-        updateGreeting();
-    }
-    
-    if (path.includes("stok.html")) {
-        tampilkanStok();
-    }
+// INIT
+window.addEventListener("DOMContentLoaded", () => {
+    if (window.location.pathname.includes("dashboard.html")) updateGreeting();
+    if (window.location.pathname.includes("stok.html")) tampilkanStok();
 });
