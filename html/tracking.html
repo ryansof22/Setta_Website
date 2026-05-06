@@ -1,0 +1,26 @@
+<!-- Bagian Input -->
+<input type="text" id="noDO" placeholder="Masukkan Nomor DO">
+<button onclick="cariTracking()">Cari</button>
+
+<!-- Container Hasil (Awalnya Tersembunyi) -->
+<div id="hasilTracking" style="display:none;">
+    <h3 id="namaMhs"></h3>
+    <p id="statusKirim"></p>
+    <table id="tabelPerjalanan"></table>
+</div>
+
+<script src="js/data.js"></script>
+<script>
+function cariTracking() {
+    const no = document.getElementById("noDO").value;
+    const data = dataTracking[no];
+    if (data) {
+        document.getElementById("hasilTracking").style.display = "block";
+        document.getElementById("namaMhs").innerText = data.nama;
+        document.getElementById("statusKirim").innerText = "Status: " + data.status;
+        // Tambahkan logika loop untuk tabel perjalanan di sini
+    } else {
+        alert("Nomor DO tidak ditemukan");
+    }
+}
+</script>
