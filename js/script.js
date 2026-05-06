@@ -35,12 +35,13 @@ if (loginForm) {
         // Mencari pengguna di data.js[cite: 3]
         const user = dataPengguna.find(u => u.email === emailInput && u.password === passInput);
 
-        if (user) {
-            // Simpan data di session agar bisa dipanggil di halaman lain
-            sessionStorage.setItem("isLoggedIn", "true");
-            sessionStorage.setItem("namaUser", user.nama);
-            window.location.href = "dashboard.html";
-        } else {
+        // Di dalam js/script.js (Bagian Logika Login)
+if (user) {
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("namaUser", user.nama);
+    // Ubah jalur menjadi seperti ini:
+    window.location.href = "html/dashboard.html"; 
+} else {
             // Feedback error sesuai soal
             alert("email/password yang anda masukkan salah");
         }
