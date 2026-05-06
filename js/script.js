@@ -20,7 +20,7 @@ if (loginForm) {
         if (user) {
             sessionStorage.setItem("namaUser", user.nama);
             // KUNCI: Karena index.html ada di root, maka pindah ke html/dashboard.html
-            window.location.href = "../html/dashboard.html"; 
+            window.location.href = "html/dashboard.html"; 
         } else {
             alert("Email atau Password salah!");
         }
