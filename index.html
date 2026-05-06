@@ -1,78 +1,55 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SITTA UT</title>
-    <!-- Menghubungkan ke file CSS eksternal[cite: 1, 4] -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <main class="login-container">
-        <!-- Logo UT Opsional -->
         <div class="logo-wrapper">
-            <img src="assets/logo-ut.png" alt="Logo UT" style="width: 100px; margin-bottom: 15px;" onerror="this.style.display='none'">
+            <img src="assets/img/logo-ut.png" alt="Logo UT" style="width: 100px; margin-bottom: 15px;" onerror="this.style.display='none'">
         </div>
-        
         <h2>Selamat Datang</h2>
         <p>Aplikasi SITTA Universitas Terbuka</p>
-
         <form id="loginForm">
-            <!-- Input email dan password sesuai indikator tugas -->
             <input type="email" id="email" placeholder="Email (rina@ut.ac.id)" required>
             <input type="password" id="password" placeholder="Password (rina123)" required>
             <button type="submit">Masuk</button>
         </form>
-        
         <div class="links">
-            <!-- Pemicu Modal Box sesuai soal -->
             <a href="javascript:void(0)" id="forgotBtn">Lupa password?</a>
             <p>Belum punya akun? <a href="javascript:void(0)" id="registerBtn">Daftar</a></p>
         </div>
     </main>
 
-    <!-- Modal Box (Referensi: w3schools.com/howto/howto_css_modals.asp)[cite: 1] -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModal">&times;</span>
             <h3 id="modalTitle">Informasi</h3>
-            <p id="modalText">Konten akan dimunculkan di sini.</p>
+            <p id="modalText"></p>
         </div>
     </div>
 
-    <!-- PENTING: data.js dipanggil lebih dulu agar variabel dataPengguna tersedia -->
     <script src="js/data.js"></script>
     <script src="js/script.js"></script>
-
     <script>
-        // Logika sederhana untuk Modal Box (Hanya ada di index.html)[cite: 1]
         const modal = document.getElementById("myModal");
-        const modalText = document.getElementById("modalText");
-        const modalTitle = document.getElementById("modalTitle");
-        const closeBtn = document.getElementById("closeModal");
-
-        document.getElementById("forgotBtn").onclick = function() {
+        const closeModal = document.getElementById("closeModal");
+        
+        document.getElementById("forgotBtn").onclick = () => {
             modal.style.display = "block";
-            modalTitle.innerText = "Lupa Password";
-            modalText.innerText = "Silakan hubungi administrator IT UPBJJ-UT terdekat untuk reset password Anda.";
-        }
-
-        document.getElementById("registerBtn").onclick = function() {
+            document.getElementById("modalTitle").innerText = "Lupa Password";
+            document.getElementById("modalText").innerText = "Silakan hubungi admin IT di UPBJJ setempat.";
+        };
+        document.getElementById("registerBtn").onclick = () => {
             modal.style.display = "block";
-            modalTitle.innerText = "Pendaftaran Akun";
-            modalText.innerText = "Pendaftaran akun SITTA hanya dapat dilakukan melalui sistem internal kepegawaian UT.";
-        }
-
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+            document.getElementById("modalTitle").innerText = "Pendaftaran";
+            document.getElementById("modalText").innerText = "Pendaftaran dilakukan melalui sistem internal UT.";
+        };
+        closeModal.onclick = () => modal.style.display = "none";
+        window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; };
     </script>
 </body>
 </html>
