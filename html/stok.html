@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Stok - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="tracking.html">Tracking Pengiriman</a>
+        <a href="index.html">Keluar</a>
+    </nav>
+
+    <main class="container">
+        <h2>Informasi Stok Bahan Ajar</h2>
+        <p>Paragaan Data Bahan Ajar</p>
+
+        <!-- Tabel Stok (Akan diisi otomatis oleh JavaScript) -->
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>Kode Barang</th>
+                    <th>Nama Barang</th>
+                    <th>Jenis</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="stokTableBody">
+                <!-- Data dari data.js akan muncul di sini -->
+            </tbody>
+        </table>
+
+        <hr>
+
+        <!-- Fitur Tambah Baris Baru (Poin 1.3 - Manipulasi DOM) -->
+        <h3>Tambah Stok Baru</h3>
+        <form id="formTambahStok">
+            <input type="text" id="newKode" placeholder="Kode Barang" required>
+            <input type="text" id="newNama" placeholder="Nama Barang" required>
+            <input type="number" id="newStok" placeholder="Jumlah Stok" required>
+            <button type="button" onclick="inputDataBaru()">Simpan Data</button>
+        </form>
+    </main>
+
+    <!-- Urutan pemanggilan script sangat penting! -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        // Fungsi tambahan khusus halaman stok untuk menambah baris baru
+        function inputDataBaru() {
+            const kode = document.getElementById("newKode").value;
+            const nama = document.getElementById("newNama").value;
+            const stok = parseInt(document.getElementById("newStok").value);
+
+            if(kode && nama && stok) {
+                // Menambahkan data ke array sementara di memory[cite: 3]
+                dataBahanAjar.push({
+                    kodeBarang: kode,
+                    namaBarang: nama,
+                    jenisBarang: "BMP", // Default
+                    stok: stok
+                });
+                
+                // Panggil fungsi dari script.js untuk merender ulang tabel
+                tampilkanStok();
+                
+                // Reset form
+                document.getElementById("formTambahStok").reset();
+                alert("Data bahan ajar baru berhasil ditambahkan secara dinamis!");
+            } else {
+                alert("Mohon isi semua kolom!");
+            }
+        }
+    </script>
+</body>
+</html>
