@@ -1,12 +1,37 @@
 // 1. GREETING
+// js/script.js
+
 function updateGreeting() {
-    const element = document.getElementById("greeting");
-    if (!element) return;
+    const greetingElement = document.getElementById("greeting");
+    if (!greetingElement) return;
+
     const hour = new Date().getHours();
-    let greet = hour < 11 ? "Selamat Pagi" : hour < 15 ? "Selamat Siang" : "Selamat Sore";
-    const nama = sessionStorage.getItem("namaUser") || "Pengguna";
-    element.innerText = `${greet}, ${nama}`;
+    let greetText = "";
+
+    // Logika penentuan waktu
+    if (hour >= 5 && hour < 11) {
+        greetText = "Selamat pagi";
+    } else if (hour >= 11 && hour < 15) {
+        greetText = "Selamat siang";
+    } else if (hour >= 15 && hour < 18) {
+        greetText = "Selamat sore";
+    } else {
+        greetText = "Selamat malam";
+    }
+
+    // Mengambil nama dari sessionStorage (yang disimpan saat login)
+    const namaUser = sessionStorage.getItem("namaUser") || "Pengguna";
+    
+    // Menampilkan pesan sesuai format yang diminta
+    greetingElement.innerText = `${greetText}, ${namaUser}`;
 }
+
+// Pastikan fungsi dipanggil saat halaman dashboard dimuat
+window.addEventListener("DOMContentLoaded", () => {
+    if (window.location.pathname.includes("dashboard.html")) {
+        updateGreeting();
+    }
+});
 
 // 2. LOGIN (Memperbaiki jalur ke folder html/)
 const loginForm = document.getElementById("loginForm");
