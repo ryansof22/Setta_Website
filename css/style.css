@@ -1,195 +1,162 @@
-/* css/style.css */
+/* style.css - Tema SITTA Noir & Gold */
 
-/* 1. Pengaturan Dasar */
 :root {
-    --bg-dark: #121212;        /* Hitam Dasar */
-    --card-dark: #1e1e1e;      /* Hitam Card */
-    --primary-yellow: #ffcc00; /* Kuning UT */
-    --text-light: #e0e0e0;
-    --text-dark: #121212;
+    --primary-yellow: #ffcc00;  /* Kuning Khas UT */
+    --hover-yellow: #e6b800;
+    --bg-black: #0f0f0f;       /* Hitam Deep */
+    --card-bg: #1a1a1a;        /* Hitam Card */
+    --text-main: #ffffff;      /* Putih Terang */
+    --text-muted: #b0b0b0;     /* Abu-abu untuk teks sekunder */
+    --border-color: rgba(255, 204, 0, 0.2); /* Border kuning transparan */
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-black);
+    color: var(--text-main);
     margin: 0;
+    line-height: 1.6;
 }
 
+/* --- Container Utama --- */
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 40px auto;
     padding: 30px;
-    background: var(--card-dark);
+    background-color: var(--card-bg);
     border-radius: 12px;
-    border: 1px solid rgba(255, 204, 0, 0.1);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+/* --- Navigasi --- */
 .navbar {
     background-color: #000;
+    padding: 0 50px;
+    height: 70px;
+    display: flex;
+    align-items: center;
     border-bottom: 2px solid var(--primary-yellow);
-    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.navbar a {
+.navbar a, .dropbtn {
     color: var(--primary-yellow);
-    font-weight: bold;
     text-decoration: none;
-    margin-right: 20px;
-}
-
-/* Tombol Login & Aksi */
-button {
-    background-color: var(--primary-yellow);
-    color: var(--text-dark);
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #e6b800;
+    padding: 15px 20px;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #004a94;
+    background-color: var(--primary-yellow);
+    color: #000;
 }
 
-.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* 3. Desain Halaman Login */
+/* --- Login Page (index.html) --- */
 .login-container {
-    width: 350px;
+    width: 100%;
+    max-width: 400px;
     margin: 100px auto;
-    padding: 30px;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
     text-align: center;
+}
+
+.login-container h2 {
+    color: var(--primary-yellow);
+    margin-bottom: 5px;
 }
 
 .login-container input {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; /* Penting agar padding tidak merusak lebar */
-}
-
-.login-container button {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--primary-blue);
+    background: #252525;
+    border: 1px solid #333;
     color: white;
+    border-radius: 6px;
+}
+
+.login-container input:focus {
+    border-color: var(--primary-yellow);
+    outline: none;
+}
+
+/* --- Tombol --- */
+button {
+    background-color: var(--primary-yellow);
+    color: #000;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 12px 25px;
+    border-radius: 6px;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
 }
 
-.login-container button:hover {
-    background-color: #002244;
+button:hover {
+    background-color: var(--hover-yellow);
+    transform: translateY(-2px);
 }
 
-/* 4. Desain Tabel (Halaman Stok & Tracking) */
+/* --- Tabel (Stok & Tracking) --- */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background: #252525;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 table th {
-    background-color: var(--primary-blue);
-    color: white;
-    padding: 12px;
+    background-color: var(--primary-yellow);
+    color: #000;
+    padding: 15px;
     text-align: left;
 }
 
 table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 12px 15px;
+    border-bottom: 1px solid #333;
+    color: var(--text-main);
 }
 
-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+table tr:hover {
+    background-color: #2d2d2d;
 }
 
-/* 5. Desain Modal (Referensi: W3Schools Modals) */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
-
+/* --- Modal Style --- */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 40%;
-    border-radius: 8px;
+    background-color: var(--card-bg);
+    color: white;
+    border: 1px solid var(--primary-yellow);
+    border-radius: 12px;
+    padding: 30px;
+    width: 400px;
+    margin: 10% auto;
 }
 
 .close {
-    color: #aaa;
+    color: var(--primary-yellow);
     float: right;
     font-size: 28px;
-    font-weight: bold;
     cursor: pointer;
 }
 
-/* 6. Form Tambah Data */
-#formTambahStok input {
-    padding: 8px;
-    margin-right: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Tambahkan di bagian bawah style.css[cite: 13] */
-.welcome-card {
-    border-left: 5px solid var(--primary-blue);
-    padding: 20px;
-    background-color: #eef4fb;
-    margin-top: 20px;
-    border-radius: 4px;
-}
-
+/* --- Teks Khusus Dashboard --- */
 #greeting {
-    color: var(--primary-blue);
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    color: var(--primary-yellow);
+    font-weight: 700;
+    letter-spacing: -1px;
 }
