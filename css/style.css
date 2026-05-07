@@ -2,44 +2,55 @@
 
 /* 1. Pengaturan Dasar */
 :root {
-    --primary-blue: #003366; /* Biru UT */
-    --accent-yellow: #ffcc00; /* Kuning UT */
-    --light-gray: #f4f4f4;
-    --white: #ffffff;
+    --bg-dark: #121212;        /* Hitam Dasar */
+    --card-dark: #1e1e1e;      /* Hitam Card */
+    --primary-yellow: #ffcc00; /* Kuning UT */
+    --text-light: #e0e0e0;
+    --text-dark: #121212;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--light-gray);
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     margin: 0;
-    color: #333;
 }
 
 .container {
     max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background: var(--white);
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    padding: 30px;
+    background: var(--card-dark);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 204, 0, 0.1);
 }
 
-/* 2. Desain Navbar (Referensi: W3Schools Dropdown) */
 .navbar {
-    overflow: hidden;
-    background-color: var(--primary-blue);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
+    background-color: #000;
+    border-bottom: 2px solid var(--primary-yellow);
+    padding: 10px 20px;
 }
 
-.navbar a, .dropbtn {
-    display: inline-block;
-    font-size: 16px;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
+.navbar a {
+    color: var(--primary-yellow);
+    font-weight: bold;
     text-decoration: none;
+    margin-right: 20px;
+}
+
+/* Tombol Login & Aksi */
+button {
+    background-color: var(--primary-yellow);
+    color: var(--text-dark);
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e6b800;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
